@@ -17,6 +17,13 @@ class MLP(torch.nn.Module):
         activation_layer: Optional[Callable[..., torch.nn.Module]] = torch.nn.GELU,
         dropout: float = 0.0,
     ):
+        """
+        Parameters:
+        - in_channels: int, number of input channels
+        - hidden_channels: List[int], list of hidden layer sizes
+        - out_channels: int, number of output channels
+        - dropout: float, dropout rate
+        """
         super().__init__()
         self.layers = nn.Sequential()
         if len(hidden_channels) == 0:
@@ -55,6 +62,14 @@ class EncoderLayer(torch.nn.Module):
         attention_dropout: float,
         norm_layer: Callable[..., torch.nn.Module] = partial(nn.LayerNorm, eps=1e-6),
     ):
+        """
+        Parameters:
+        - num_heads: int, number of attention heads
+        - hidden_dim: int, token feature dimension in the transformer
+        - mlp_dim: int, hidden dimension in the MLP
+        - dropout: float, dropout rate
+        - attention_dropout: float, dropout rate in the attention layer
+        """
         super().__init__()
         self.num_heads = num_heads
         self.norm1 = norm_layer(hidden_dim)
@@ -88,6 +103,16 @@ class Encoder(torch.nn.Module):
         attention_dropout: float,
         norm_layer: Callable[..., torch.nn.Module] = partial(nn.LayerNorm, eps=1e-6),
     ):
+        """
+        Parameters:
+        - seq_length: int, length of the input sequence
+        - num_layers: int, number of layers in the encoder
+        - num_heads: int, number of attention heads
+        - hidden_dim: int, token feature dimension in the transformer
+        - mlp_dim: int, hidden dimension in the MLP
+        - dropout: float, dropout rate
+        - attention_dropout: float, dropout rate in the attention layer
+        """
         super().__init__()
         self.pos_embedding = nn.Parameter(torch.empty(1, seq_length, hidden_dim).normal_(std=0.02))  # from BERT
         self.dropout = nn.Dropout(dropout)
@@ -138,6 +163,11 @@ class VisionTransformer(nn.Module):
         - dropout: float, dropout rate
         - attention_dropout: float, dropout rate in the attention layer
         - num_classes: int, number of classes in the classification task
+
+        This module first convolutionally embeds the input image into a sequence
+        of token features, then applies the transformer encoder to the token 
+        sequence, in the end, applies a linear layer to get the classification 
+        result.
         """
 
         super().__init__()
