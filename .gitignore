@@ -1,0 +1,7 @@
+vit_oversample.pth
+vit_weightloss.pth
+CIFAR10_balance/
+CIFAR10_imbalanced/
+__pycache__/
+.vscode/
+data/
