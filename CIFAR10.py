@@ -46,6 +46,8 @@ class CIFAR10(torch.utils.data.Dataset):
         img = Image.open(self.data[idx])
         if self.transform:
             img = self.transform(img)
+        else:
+            img = transforms.ToTensor()(img)
         return img, self.targets[idx]
     
     def class_weights(self):

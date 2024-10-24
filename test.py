@@ -1,4 +1,9 @@
-model_pth_path = 'vit_oversample.pth'
+# model_pth_path = 'vit_oversample.pth'
+# model_pth_path = 'vit_oversample_more_trans.pth'
+# model_pth_path = 'vit_weightloss.pth'
+# model_pth_path = 'vit_baseline.pth'
+
+model_pth_path = 'vit_weightloss.pth'
 
 import torch
 import torchvision
@@ -27,7 +32,7 @@ model = VIT.VisionTransformer(
     num_classes=10
 ).to('cuda')
 
-model.load_state_dict(torch.load(model_pth_path))
+model.load_state_dict(torch.load(model_pth_path, weights_only=True))
 
 model.eval()
 correct = 0
