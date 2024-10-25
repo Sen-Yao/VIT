@@ -2,8 +2,9 @@
 # model_pth_path = 'vit_oversample_more_trans.pth'
 # model_pth_path = 'vit_weightloss.pth'
 # model_pth_path = 'vit_baseline.pth'
+# model_pth_path = 'vit_both.pth'
 
-model_pth_path = 'vit_weightloss.pth'
+model_pth_path = 'vit_both.pth'
 
 import torch
 import torchvision
@@ -22,10 +23,10 @@ testloader = DataLoader(testset, batch_size=32, shuffle=True)
 
 model = VIT.VisionTransformer(
     image_size=32,
-    patch_size=4,
-    num_layers=2,
-    num_heads=4,
-    hidden_dim=64,
+    patch_size=2,
+    num_layers=4,
+    num_heads=16,
+    hidden_dim=32,
     mlp_dim=128,
     dropout=0.1,
     attention_dropout=0.1,

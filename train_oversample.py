@@ -14,7 +14,7 @@ if __name__ == '__main__':
     ])
 
 
-    trainset = CIFAR10.CIFAR10(root='./CIFAR10_imbalanced', oversampling=True, transform=train_transform)
+    trainset = CIFAR10.CIFAR10(root='./CIFAR10_imbalanced', oversampling=False, transform=train_transform)
     trainloader = DataLoader(trainset, batch_size=128, shuffle=True)
 
     model = VIT.VisionTransformer(
@@ -22,7 +22,7 @@ if __name__ == '__main__':
         patch_size=4,
         num_layers=2,
         num_heads=4,
-        hidden_dim=64,
+        hidden_dim=16,
         mlp_dim=128,
         dropout=0.1,
         attention_dropout=0.1,
@@ -51,7 +51,7 @@ if __name__ == '__main__':
         print("Epoch", epoch, "done. Loss: ", running_loss / len(trainloader))
 
     # save pth
-    torch.save(model.state_dict(), 'vit_oversample.pth')
+    torch.save(model.state_dict(), 'vit_baseline.pth')
 
 
 

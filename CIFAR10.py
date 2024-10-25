@@ -52,7 +52,16 @@ class CIFAR10(torch.utils.data.Dataset):
     
     def class_weights(self):
         class_weights = np.zeros(10)
+        total_samples = len(self.data)
+        
         for i in range(10):
-            class_weights[i] = self.classes_num[i] / len(self.data)
+            if self.classes_num[i] > 0:
+                class_weights[i] = 1 / (self.classes_num[i] + 1e-6)
+            else:
+                class_weights[i] = 0  # 避免除零
+        
+        
+        class_weights = class_weights / np.sum(class_weights)
+
         return class_weights
     
